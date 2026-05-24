@@ -1,0 +1,12 @@
+---
+# vars/servers.yml
+# Example servers file.
+# Generate this file using => scripts/generator/location.sh
+
+servers:
+  dns:
+#     - bob
+  web:
+#     - alice
+#     - bob
+#     - charlie

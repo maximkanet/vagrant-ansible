@@ -1,0 +1,7 @@
+---
+
+ssh_public_keys:
+  # Replace the string below with your actual public key output
+  alice: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICgSGhi+cuAVRIHRN6sXREDML0O46O7junZxuZrpnQuL vagrant@ansible"
+  bob: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBoT4RHhBeKBkUaMPCKhB3BxECFYRTVEMu+Ho9uF7hip vagrant@ansible"
+  charlie: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMSC9yRHxoYW1jNFo93U7Kmrvk3fE/8Ts/QScAys8TOC vagrant@ansible"

@@ -1,0 +1,19 @@
+---
+# DNS instalation tasks ...
+
+# Create user accounts
+- name: Create user accounts
+  ansible.builtin.user:
+    name: "{{ item }}"
+    state: present
+    shell: /bin/bash
+    create_home: true
+  loop: "{{ servers.dns | default([]) }}"
+
+# Deploy keys
+- name: Deploy SSH public keys
+  ansible.posix.authorized_key:
+    user: "{{ item }}"
+    state: present
+    key: "{{ ssh_public_keys[item] }}"
+  loop: "{{ servers.dns | default([]) }}"
