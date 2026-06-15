@@ -20,7 +20,13 @@ vagrant ssh mgmt
 
 In `/vagrant/scripts` are scripts for data generation and Ansible Playbook.
 
-Generate test users on `mgmt` server.
+Sync ansible entire ansible folder with machine.
+
+```bash
+bash /vagrant/scripts/ansible/sync.sh /home/vagrant
+```
+
+Generate test user keys on `mgmt` server.
 
 ```bash
 # mgmt server
@@ -56,6 +62,8 @@ sudo bash /vagrant/scripts/generator/locations.sh dns web
 Script uses absolute hard-coded paths, so runable from any path.
 
 ```bash
+# IMPORTANT: Running this script with -s flag will REPLACE ALL FILES in ansible folder.
+
 bash /vagrant/scripts/run_playbook.sh
 ```
 

@@ -52,11 +52,19 @@ Vagrant.configure("2") do |config|
     # Interface 2: Internal Network (Connects to the isolated lab)
     mgmt.vm.network "private_network", ip: "10.0.0.10", virtualbox__intnet: "lab_internal"
     
-    # Install Ansible and sshpass directly onto this server
+    # Update apt and install packages
     mgmt.vm.provision "shell", inline: <<-SHELL
       apt-get update
-      apt-get install -y python3-pip sshpass
-      pip install ansible
+      apt-get install -y pipx sshpass
+    SHELL
+
+    # Install Ansible and sshpass directly onto this server
+    mgmt.vm.provision "shell", privileged: false, inline: <<-SHELL
+      pipx ensurepath
+      pipx install --include-deps ansible --force
+    SHELL
+
+    mgmt.vm.provision "shell", privileged: false, inline: <<-SHELL
       ansible-galaxy collection install ansible.posix
     SHELL
 
@@ -76,12 +84,6 @@ Vagrant.configure("2") do |config|
       sudo chmod 700 /home/vagrant/.ssh/machines_keys
 
       sudo chmod 600 /home/vagrant/.ssh/machines_keys/*
-    SHELL
-
-    mgmt.vm.provision "shell", inline: <<-SHELL
-      # Copy ansible files
-      mkdir -p /home/vagrant/ansible
-      cp -r /vagrant/ansible/* /home/vagrant/ansible
     SHELL
   end
 end
