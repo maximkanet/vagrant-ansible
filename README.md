@@ -1,10 +1,72 @@
-# Vagrant + Ansible example
+# Users and SSH keys automation with Ansible
 
-> Do NOT use in production.
+Create automatic flow for users and ssh keys deployment with ansible.
 
-## How to run?
+## Project structure
 
-On local Windows, Linux, MacOS run Vagrant.
+```
+ansible/                  - Ansible project root
+├── ansible.cfg           - Ansible config
+├── inventory/            
+│   └── hosts.yml         - Here are defined servers to be managed
+├── roles/                
+│   ├── dns_server/
+│   │   └── tasks/        - User and SSH public keys deployment tasks
+│   │       └── main.yml
+│   └── web_server/
+│       └── tasks/
+│           └── main.yml  - User and SSH public keys deployment tasks
+├── site.yml              - Main Playbook file
+└── vars/
+    ├── servers.yml       - Users locations
+    └── ssh_keys.yml      - SSH public key storage
+```
+
+## Hosts setup
+
+Setup hosts in `ansible/inventory/hosts.yml` file.
+
+## Server users setup
+
+In `ansible/vars/servers.yml` define users that will be created on the servers.
+
+Use following file structure:
+
+```yml
+---
+# ansible/vars/servers.yml
+
+servers:
+  dns:
+     - alice
+  web:
+     - alice
+     - bob
+     - charlie
+```
+
+## SSH public keys setup
+
+In `ansible/vars/ssh_keys.yml` are defined public keys for relevant user.
+
+Use following file structure:
+```yml
+---
+
+ssh_public_keys:
+  # Replace the strings below with your actual public key output
+  alice: "ssh-ed25519 AAAAC3Nz... vagrant@ansible"
+  bob: "public key ..."
+  charlie: "public key ..."
+```
+
+## Testing
+
+### Vagrant
+
+Install [Vagrant](https://developer.hashicorp.com/vagrant) on your machine.
+
+Run virtual machines.
 
 ```bash
 vagrant up
@@ -16,17 +78,20 @@ Connect to the Management server
 vagrant ssh mgmt
 ```
 
-## Create test users and keys
+#### Create test users and keys
 
 In `/vagrant/scripts` are scripts for data generation and Ansible Playbook.
 
-Sync ansible entire ansible folder with machine.
+> variables.cfg file defines variables used in scripts.
+
+Sync ansible folder with management server.
 
 ```bash
+# bash /vagrant/scripts/ansible/sync.sh [destination]
 bash /vagrant/scripts/ansible/sync.sh /home/vagrant
 ```
 
-Generate test user keys on `mgmt` server.
+Generate test users and keys on `mgmt` server.
 
 ```bash
 # mgmt server
@@ -42,7 +107,7 @@ Private keys are in `~/keys`.
 
 ---
 
-## Add locations for users
+#### Add locations for users
 
 Let's generate locations for the created users.
 
@@ -53,11 +118,11 @@ Let's generate locations for the created users.
 bash /vagrant/scripts/generator/locations.sh dns web
 
 # Write the usernames
-> dns: alex charlie alice
-> web: alex 
+# > dns: alex charlie alice
+# > web: alex 
 ```
 
-## Run Ansible Playbook
+#### Run Ansible Playbook
 
 Script uses absolute hard-coded paths, so runable from any path.
 
@@ -69,7 +134,7 @@ bash /vagrant/scripts/ansible/play.sh
 
 ---
 
-## Test private keys from Management server
+#### Test private keys on Management server
 
 Let's try to connect to the `dns` host from the management server.
 

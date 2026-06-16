@@ -1,0 +1,20 @@
+---
+# Play 2: Configure the DNS Master
+- name: Setup and configure the DNS Master
+  hosts: dns
+  become: yes
+  vars_files:
+    - vars/servers.yml
+    - vars/ssh_keys.yml
+  roles:
+    - dns_server
+
+# Play 3: Configure the Webserver
+- name: Setup and configure Nginx Webserver
+  hosts: webservers
+  become: yes
+  vars_files:
+    - vars/servers.yml
+    - vars/ssh_keys.yml
+  roles:
+    - web_server
