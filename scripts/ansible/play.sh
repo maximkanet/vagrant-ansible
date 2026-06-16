@@ -1,10 +1,11 @@
 #!/bin/bash
 
-HOME_DIR="/home/vagrant"
-ANSIBLE_DIR="$HOME_DIR/ansible"
+readonly HOME_DIR="/home/vagrant"
+readonly ANSIBLE_DIR="$HOME_DIR/ansible"
 
-HOSTS_FILE="$ANSIBLE_DIR/inventory/hosts.yml"
-SITE_FILE="$ANSIBLE_DIR/site.yml"
+readonly HOSTS_FILE="$ANSIBLE_DIR/inventory/hosts.yml"
+# readonly PLAYBOOK_FILE="$ANSIBLE_DIR/site.yml"
+readonly PLAYBOOK_FILE="$ANSIBLE_DIR/playbooks/site.yml"
 
 # Process flags
 while getopts "hvf:s" opt; do
@@ -23,5 +24,5 @@ done
 # Go to anaible dir and run playbook
 (
   cd $ANSIBLE_DIR || exit 1
-  ansible-playbook -i $HOSTS_FILE $SITE_FILE
+  ansible-playbook -i $HOSTS_FILE $PLAYBOOK_FILE
 )

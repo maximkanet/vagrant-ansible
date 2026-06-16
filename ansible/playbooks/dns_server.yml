@@ -1,0 +1,10 @@
+---
+# Play 2: Configure the DNS Master
+- name: Setup and configure the DNS Master
+  hosts: dns
+  become: yes
+  vars_files:
+    - ../vars/servers.yml
+    - ../vars/ssh_keys.yml
+  roles:
+    - dns_server

@@ -31,10 +31,10 @@ Generate test user keys on `mgmt` server.
 ```bash
 # mgmt server
 
-# sudo /vagrant/scripts/generator/run.sh [usernames ...]
+# sudo /vagrant/scripts/generator/keys.sh [usernames ...]
 
 # For example:
-sudo bash /vagrant/scripts/generator/run.sh alice bob charlie alex steve
+sudo bash /vagrant/scripts/generator/keys.sh alice bob charlie alex steve
 ```
 
 This script generates ssh keys and `ansible/vars/ssh_keys.yml` file.
@@ -64,7 +64,7 @@ Script uses absolute hard-coded paths, so runable from any path.
 ```bash
 # IMPORTANT: Running this script with -s flag will REPLACE ALL FILES in ansible folder.
 
-bash /vagrant/scripts/run_playbook.sh
+bash /vagrant/scripts/ansible/play.sh
 ```
 
 ---
